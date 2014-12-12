@@ -11,24 +11,31 @@ data Tree a =
 
 foldTree :: ([a] -> a) -> Tree a -> a
 foldTree f (Finish d) = d
-foldTree f (Branch t) = foldr f [] t 
+foldTree f (Branch d ts) = f ([d] ++ [foldTree f t | t <- ts])
 
 smallest :: Ord a => Tree a -> a
-smallest t = ??? -- Complete for Problem #3, part (b).
+smallest t = foldTree minimum t
 
 largest :: Ord a => Tree a -> a
-largest t = ??? -- Complete for Problem #3, part (b).
+largest t = foldTree maximum t -- Complete for Problem #3, part (b).
 
 data Allocation =
     Alloc [(Var, Register)]
   deriving (Eq, Show)
 
+distinctRegs :: Allocation -> Int
+distinctRegs (Alloc l) = length (nub [r | (v, r) <- l])
 
+instance Ord Allocation where
+	compare a a' = 
+		if distinctRegs a == distinctRegs a' then EQ
+		else if distinctRegs a <= distinctRegs a' then LT
+		else GT
 -- Add instance declaration for Problem #3, part (c) here.
 
 
-allocations :: (Interference, [Register]) -> Allocation -> [Var] -> Tree Allocation
-allocations (conflicts, rs) (Alloc a) (x:xs) = ??? -- Complete for Problem #3, part (d).
+--allocations :: (Interference, [Register]) -> Allocation -> [Var] -> Tree Allocation
+--allocations (conflicts, rs) (Alloc a) (x:xs) = ??? -- Complete for Problem #3, part (d).
 
 -- Useful helper function.
 unconflicted ::(Interference, [Register]) -> Allocation -> Var -> [Register]
