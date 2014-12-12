@@ -13,11 +13,15 @@ foldTree :: ([a] -> a) -> Tree a -> a
 foldTree f (Finish d) = d
 foldTree f (Branch d ts) = f ([d] ++ [foldTree f t | t <- ts])
 
+listOfLeaves :: Tree a -> [a]
+listOfLeaves (Finish d) = [d]
+listOfLeaves (Branch d ts) = concat [listOfLeaves t | t <- ts]
+
 smallest :: Ord a => Tree a -> a
-smallest t = foldTree minimum t
+smallest t = minimum (listOfLeaves t)
 
 largest :: Ord a => Tree a -> a
-largest t = foldTree maximum t -- Complete for Problem #3, part (b).
+largest t = maximum (listOfLeaves t) -- Complete for Problem #3, part (b).
 
 data Allocation =
     Alloc [(Var, Register)]
