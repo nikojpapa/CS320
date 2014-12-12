@@ -77,7 +77,7 @@ instance HasVariables Exp where
 
 unbound :: Stmt -> [Var]
 unbound (End) = []
-unbound (Print e s) = union (vars e) (vars s)
+unbound (Print e s) = union (vars e) (unbound s)
 unbound (Assign x e s) = union ([j | j <- vars s, j /= x]) (vars e)
 --unbound _ = [] -- Implement for Problem #2, part (b).
 
@@ -88,7 +88,7 @@ type Interference = [(Var, Var)]
 interference :: Stmt -> Interference
 interference (End) = []
 interference (Print e s) = interference s
-interference (Assign x e s) = union (interference s) [(x, y) | y <- unbound (Assign x e s)]
+interference (Assign x e s) = union (interference s) [(x, y) | y <- (vars e ++ unbound s), y /= x]
 --interference _ = [] -- Implement for Problem #2, part (c).
 
 

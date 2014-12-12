@@ -91,6 +91,8 @@ subset xs ys = and [x `elem` ys | x <- xs]
 
 -- Example of a concrete syntax string being parsed.
 example = fst $ (\(Just x)->x) $ parse (tokenize "assign x := not(and(true, false)); print x; assign a := not(and(x, x)); print a; end;") :: Stmt
+example2 = fst $ (\(Just x)->x) $ parse (tokenize "assign x := y; print x; print z; end;") :: Stmt
+example3 = fst $ (\(Just x)->x) $ parse (tokenize "assign y := true; assign x := y; print x; print z; end;") :: Stmt
 
 -- Problem 1, part (a).
 kindOfParser = "predictive" -- "backtracking" or "predictive"
