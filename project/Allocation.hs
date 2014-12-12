@@ -41,8 +41,8 @@ instance Ord Allocation where
 allocations :: (Interference, [Register]) -> Allocation -> [Var] -> Tree Allocation
 allocations (conflicts, rs) (Alloc a) (x:xs) = 
 	let choices = unconflicted (conflicts, rs) (Alloc a) x
-	in if length choices > 1 then Branch (Alloc [(x, reg) | reg <- choices]) [allocations (conflicts, regs) (Alloc a) xs | regs <- [intersect rs ((take i choices) ++ (drop (i + 1) choices)) | i <- [0,1..(length choices)]]]
-		else Finish (Alloc [(x, reg) | reg <- choices])
+	in if length xs > 0 then Branch (Alloc a) [allocations (conflicts, rs) (Alloc (a ++ [(x, regs)])) xs | regs <- choices]
+		else Branch (Alloc a) [Finish (Alloc (a ++ [(x, regs)])) | regs <- choices]
 
 -- Useful helper function.
 unconflicted ::(Interference, [Register]) -> Allocation -> Var -> [Register]
