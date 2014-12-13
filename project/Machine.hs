@@ -6,7 +6,15 @@ data Register =
     Register Integer
   deriving (Eq, Show)
 
+instance Num Register where
+	fromInteger n = Register n
+	(Register x) + (Register y) = Register (x + y)
 
+instance Ord Register where
+	compare (Register x) (Register y) = 
+		if x == y then EQ
+		else if x <= y then LT
+		else GT
 -- Add instance declarations here for Problem #4, part (a).  
 
 
