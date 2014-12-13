@@ -23,6 +23,9 @@ smallest t = minimum (listOfLeaves t)
 largest :: Ord a => Tree a -> a
 largest t = maximum (listOfLeaves t) -- Complete for Problem #3, part (b).
 
+closeToK :: Int -> Tree Allocation -> Allocation
+closeToK k t = maximum [l | l <- listOfLeaves t, distinctRegs l <= k]
+
 data Allocation =
     Alloc [(Var, Register)]
   deriving (Eq, Show)

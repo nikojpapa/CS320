@@ -18,7 +18,7 @@ eval env (Not e) =
 	let v = eval env e
 	in not v
 eval env (Variable x) = 
-	let [v] = [b | (s, b) <- env, s == x]
+	let v = lookup' x env
 	in v
 --eval _ _ = False -- Implement for Problem #1, part (b).
 
@@ -27,9 +27,12 @@ exec env (Print    e s) =
   let (env', o) = exec env s
   in (env', [eval env e] ++ o)
 exec env (Assign x e s) = 
-	exec (env ++ [(x, eval env e)]) s
+	exec (assignValue x (eval env e) env) s
 exec env (End) = (env, [])
 --exec env _ = (env, []) -- Implement the Assign and End cases for Problem #1, part (b).
+
+assignValue :: Eq k => k -> v -> [(k, v)] -> [(k, v)]
+assignValue key value assoc = (key,value):(filter ((key /=).fst) assoc)
 
 interpret :: Stmt -> Maybe Output
 interpret s = 
@@ -37,6 +40,6 @@ interpret s =
 		let (env, o) = exec [] s
 		in Just o
 	else Nothing
-interpret _ = Nothing -- Implement for Problem #1, part (d). 
+--interpret _ = Nothing -- Implement for Problem #1, part (d). 
 
 -- eof

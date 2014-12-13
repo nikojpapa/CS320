@@ -22,7 +22,7 @@ instance Typeable Exp where
 	chk env (Variable x) = 
 		let [v] = [b | (s, b) <- env, s == x]
 		in Just v
-	chk _ _ = Nothing -- Implement for Problem #1, part (c).
+	--chk _ _ = Nothing -- Implement for Problem #1, part (c).
 
 instance Typeable Stmt where 
 	chk env (Print e s) = 
@@ -34,6 +34,6 @@ instance Typeable Stmt where
 		in let Just tSt = chk (env ++ [(x, tEx)]) s
 		in if tSt == Void then Just Void else Nothing
 	chk env (End) = Just Void
-	chk _ _ = Nothing -- Implement for Problem #1, part (c).
+	--chk _ _ = Nothing -- Implement for Problem #1, part (c).
 
 -- eof
