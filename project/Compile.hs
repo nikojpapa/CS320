@@ -15,7 +15,9 @@ instance Compilable Stmt where
 
 instance Compilable Exp where
   comp xrs (Variable x) = STOP (lookup' x xrs)
-  comp xrs (Value False) = 
+  comp xrs (Value False) = let newReg = (maximum xrs) + 1 in INIT (newReg) (STOP newReg)
+  comp xrs (Value True) = let newReg = (maximum xrs) + 1 in INIT (newReg) (FLIP (newReg) (STOP newReg))
+  comp xrs (And e1 e2) = let newReg = (maximum xrs) + 1 in NAND (register (comp e1)) (register (comp e2)) ()
   comp _   _ = STOP (Register -1) -- Complete missing cases for Problem #4, part (b).
 
 compileMin :: Stmt -> Maybe Instruction
