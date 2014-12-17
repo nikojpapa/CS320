@@ -9,6 +9,7 @@ data Register =
 instance Num Register where
 	fromInteger n = Register n
 	(Register x) + (Register y) = Register (x + y)
+  --(Register x) - (Register y) = Register (x - y)
 
 instance Ord Register where
 	compare (Register x) (Register y) = 
