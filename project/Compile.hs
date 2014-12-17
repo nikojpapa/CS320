@@ -56,8 +56,8 @@ compileMin s =
 compileMax :: Integer -> Stmt -> Maybe Instruction
 compileMax k s = 
   if chk [] s == Just Void then 
-    if length (interference s) < ((fromIntegral k) - 3) then
-      let Alloc rs = largest (allocations (interference s, [Register (toInteger r) | r <- [1..(k-3)]]) (Alloc []) (vars s))
+    if length (interference s) < (fromIntegral k) then
+      let Alloc rs = largest (allocations (interference s, [Register (toInteger r) | r <- [1..k]]) (Alloc []) (vars s))
       in Just (comp rs s)
     else Nothing
   else Nothing
