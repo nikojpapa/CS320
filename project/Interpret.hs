@@ -42,4 +42,6 @@ interpret s =
 	else Nothing
 --interpret _ = Nothing -- Implement for Problem #1, part (d). 
 
+-- 4d) Interpret will be passed a statement, as defined by the function declaration.  This statement will have to pass through chk, which will make sure it is a valid statment.  If there were unbound variables, chk would return nothing since it would not be able to find a type of that variable.
+
 -- eof
